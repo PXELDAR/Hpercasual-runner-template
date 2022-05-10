@@ -100,8 +100,6 @@ namespace PXELDAR
 
         public void UpdatePlayerStats()
         {
-            Debug.Log("GameInstanceData: UpdatePlayerStats");
-
             int nLastFinishedLevel = nLevelNumber;
 
             // register last finished level
@@ -125,8 +123,6 @@ namespace PXELDAR
 
         public void SaveEarningsOfCurrentInstance()
         {
-            Debug.Log("GameInstanceData: SaveEarningsOfCurrentInstance");
-
             // save coins
             // InventoryManager.Instance.IncreaseCoinsCount(nCoins);
 
@@ -307,7 +303,6 @@ namespace PXELDAR
         {
             if (bWin)
             {
-                Debug.Log("UpdatePlayerStats level:" + GetCurrentLevel());
                 UpdatePlayerStats();
             }
 

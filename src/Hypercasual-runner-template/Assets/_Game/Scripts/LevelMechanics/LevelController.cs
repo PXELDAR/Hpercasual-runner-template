@@ -53,12 +53,12 @@ namespace PXELDAR
 
         //
         // Player
-        //
-        // public delegate void OnPlayerCollidedWithObstacleDelegate(ObstacleController obstacle);
-        // public event OnPlayerCollidedWithObstacleDelegate OnPlayerCollidedWithObstacle;
 
-        // public delegate void OnPlayerCollidedWithCollectibleDelegate(CollectibleController collectible);
-        // public event OnPlayerCollidedWithCollectibleDelegate OnPlayerCollidedWithCollectible;
+        public delegate void OnPlayerCollidedWithObstacleDelegate(ObstacleController obstacle);
+        public event OnPlayerCollidedWithObstacleDelegate OnPlayerCollidedWithObstacle;
+
+        public delegate void OnPlayerCollidedWithCollectibleDelegate(CollectibleController collectible);
+        public event OnPlayerCollidedWithCollectibleDelegate OnPlayerCollidedWithCollectible;
 
         public delegate void OnPlayerStackChangedDelegate(int currentCount, int previousCount);
         public event OnPlayerStackChangedDelegate OnPlayerStackChanged;
@@ -74,34 +74,6 @@ namespace PXELDAR
 
         // public delegate void OnPlayerCollidedWithGateDelegate(GateController gate);
         // public event OnPlayerCollidedWithGateDelegate OnPlayerCollidedWithGate;
-
-        //
-        // Idle Section
-        //
-        public delegate void OnAwayProfitsCalculatedDelegate(double earnings);
-        public event OnAwayProfitsCalculatedDelegate OnAwayProfitsCalculated;
-
-        public delegate void OnTimeStampIsReadyDelegate();
-        public event OnTimeStampIsReadyDelegate OnTimeStampIsReady;
-
-        public delegate void OnIdleNewSessionTimeDifferenceCalculatedDelegate(int secondsGone);
-        public event OnIdleNewSessionTimeDifferenceCalculatedDelegate OnIdleNewSessionTimeDifferenceCalculated;
-
-        public delegate void OnHotelIsReadyDelegate();
-        public event OnHotelIsReadyDelegate OnHotelIsReady;
-
-        // public delegate void OnHotelRoomIsPurchasedDelegate(RoomController purchasedRoom);
-        // public event OnHotelRoomIsPurchasedDelegate OnHotelRoomIsPurchased;
-
-        // public delegate void OnIdleUnitIsPurchasedDelegate(IdleUnitController purchasedIdleUnit);
-        // public event OnIdleUnitIsPurchasedDelegate OnIdleUnitIsPurchased;
-
-        public delegate void OnHotelNavMeshIsBakedDelegate();
-        public event OnHotelNavMeshIsBakedDelegate OnHotelNavMeshIsBaked;
-
-        public delegate void OnMoneyBankIsCollectedDelegate();
-        public event OnMoneyBankIsCollectedDelegate OnMoneyBankIsCollected;
-
 
         //===================================================================================
 
@@ -134,7 +106,6 @@ namespace PXELDAR
             if (!isLevelEnded)
             {
                 isLevelEnded = true;
-                Debug.Log("<color='purple'>LevelEventsManager OnLevelFailed</color>");
                 OnLevelFailed?.Invoke();
             }
         }
@@ -147,7 +118,6 @@ namespace PXELDAR
             {
                 PlayerPrefs.SetInt("diamond", diamondAmount);
                 isLevelEnded = true;
-                Debug.Log("<color='purple'>LevelEventsManager OnLevelCompleted</color>");
                 OnLevelCompleted?.Invoke();
             }
 
@@ -160,7 +130,6 @@ namespace PXELDAR
             if (!isLevelEnded)
             {
                 isLevelEnded = true;
-                Debug.Log("<color='purple'>LevelEventsManager OnLevelDraw</color>");
                 OnLevelDraw?.Invoke();
             }
         }
@@ -169,8 +138,6 @@ namespace PXELDAR
 
         public void CompleteStage(int nStage)
         {
-            Debug.Log("<color='purple'>LevelEventsManager OnStageCompleted: </color>" + nStage);
-
             OnStageCompleted?.Invoke(nStage);
         }
 
@@ -178,8 +145,6 @@ namespace PXELDAR
 
         public void ChangeStage(int nStage)
         {
-            Debug.Log("<color='purple'>LevelEventsManager OnStageChanged: </color>" + nStage);
-
             OnStageChanged?.Invoke(nStage);
         }
 
@@ -187,8 +152,6 @@ namespace PXELDAR
 
         public void ChangeLevel(int nLevel)
         {
-            Debug.Log("<color='purple'>LevelEventsManager OnLevelChanged: </color>" + nLevel);
-
             OnLevelChanged?.Invoke(nLevel);
         }
 
@@ -196,8 +159,6 @@ namespace PXELDAR
 
         public void ChangeLevelProgressValue(float fMin, float fMax, float fVal)
         {
-            //Debug.Log("<color='purple'>LevelProgressValueChanged</color> " + fMin + " " + fMax + " " + fVal);
-
             OnLevelProgressValueChanged?.Invoke(fMin, fMax, fVal);
         }
 
@@ -205,8 +166,6 @@ namespace PXELDAR
 
         public void UpdateScoreValue()
         {
-            //Debug.Log("<color='purple'>ScoreValueChanged</color>");
-
             OnScoreValueUpdated?.Invoke();
         }
 
@@ -241,17 +200,17 @@ namespace PXELDAR
 
         // //===================================================================================
 
-        // public void PlayerCollidedWithObstacle(ObstacleController obstacle)
-        // {
-        //     OnPlayerCollidedWithObstacle?.Invoke(obstacle);
-        // }
+        public void PlayerCollidedWithObstacle(ObstacleController obstacle)
+        {
+            OnPlayerCollidedWithObstacle?.Invoke(obstacle);
+        }
 
-        // //===================================================================================
+        //===================================================================================
 
-        // public void PlayerCollidedWithCollectible(CollectibleController collectible)
-        // {
-        //     OnPlayerCollidedWithCollectible?.Invoke(collectible);
-        // }
+        public void PlayerCollidedWithCollectible(CollectibleController collectible)
+        {
+            OnPlayerCollidedWithCollectible?.Invoke(collectible);
+        }
 
         //===================================================================================
 
@@ -276,73 +235,10 @@ namespace PXELDAR
 
         //===================================================================================
 
-        public void MoneyChanged(double newAmount = 0, double previousAmount = 0)
-        {
-            OnMoneyChanged?.Invoke(newAmount, previousAmount);
-        }
-
-        //===================================================================================
-
-        public void AwayProfitsCalculated(double earnings)
-        {
-            OnAwayProfitsCalculated?.Invoke(earnings);
-        }
-
-        //===================================================================================
-
-        public void TimeStampIsReady()
-        {
-            OnTimeStampIsReady?.Invoke();
-        }
-
-        //===================================================================================
-
-        public void IdleNewSessionTimeDifferenceCalculated(int secondsGone)
-        {
-            OnIdleNewSessionTimeDifferenceCalculated?.Invoke(secondsGone);
-        }
-
-        //===================================================================================
-
-        public void HotelIsReady()
-        {
-            OnHotelIsReady?.Invoke();
-        }
-
-        // //===================================================================================
-
-        // public void HotelRoomIsPurchased(RoomController purchasedRoom)
-        // {
-        //     OnHotelRoomIsPurchased?.Invoke(purchasedRoom);
-        // }
-
-        // //===================================================================================
-
-        // public void IdleUnitIsPurchased(IdleUnitController purchasedIdleUnit)
-        // {
-        //     OnIdleUnitIsPurchased?.Invoke(purchasedIdleUnit);
-        // }
-
-        //===================================================================================
-
         // public void PlayerCollidedWithGate(GateController gate)
         // {
         //     OnPlayerCollidedWithGate?.Invoke(gate);
         // }
-
-        //===================================================================================
-
-        public void HotelNavMeshIsBaked()
-        {
-            OnHotelNavMeshIsBaked?.Invoke();
-        }
-
-        //===================================================================================
-
-        public void MoneyBankIsCollected()
-        {
-            OnMoneyBankIsCollected?.Invoke();
-        }
 
         //===================================================================================
 

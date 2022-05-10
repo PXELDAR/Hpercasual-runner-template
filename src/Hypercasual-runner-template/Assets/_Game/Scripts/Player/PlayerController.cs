@@ -9,8 +9,6 @@ namespace PXELDAR
         public PlayerAnimationController animationController { get; private set; }
         public PlayerStackController stackController { get; private set; }
 
-        private const string _lvlUpParticle = "LvlUpParticle";
-
         //===================================================================================
 
         private void Awake()
@@ -24,5 +22,25 @@ namespace PXELDAR
         }
 
         //===================================================================================
+
+        private void OnEnable()
+        {
+            LevelManager.Instance.controller.OnPlayerReachedEndOfSpline += OnPlayerReachedEndOfSpline;
+        }
+
+        private void OnDisable()
+        {
+            LevelManager.Instance.controller.OnPlayerReachedEndOfSpline -= OnPlayerReachedEndOfSpline;
+        }
+
+        //===================================================================================
+
+        private void OnPlayerReachedEndOfSpline()
+        {
+            LevelManager.Instance.controller.CompleteLevel();
+        }
+
+        //===================================================================================
+
     }
 }

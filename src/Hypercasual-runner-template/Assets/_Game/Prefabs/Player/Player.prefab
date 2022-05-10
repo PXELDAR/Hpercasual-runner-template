@@ -292,6 +292,8 @@ GameObject:
   - component: {fileID: 4391577646676272227}
   - component: {fileID: 5994097153186052177}
   - component: {fileID: 8211673554454371687}
+  - component: {fileID: 8792101291597176591}
+  - component: {fileID: 6899720472203238025}
   - component: {fileID: 6741556511027066188}
   m_Layer: 9
   m_Name: Player
@@ -446,7 +448,7 @@ BoxCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 799380173802449671}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 0.75, y: 2, z: 0.75}
@@ -507,6 +509,34 @@ MonoBehaviour:
   _playerPlatformXOffset: 0
   _maxRotationValue: 20
   _topSpeed: 10.8
+--- !u!114 &8792101291597176591
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 799380173802449671}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a16f1d788eac8cb4cb94c66c7924c0d6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &6899720472203238025
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 799380173802449671}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7db62a1b773e67944b383479d47110b3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _requiredStackForLevel: 10
+  _segmentHeight: -0.25
+  _segmentsDistanceFactor: 0
+  _segmentFollowSpeed: 10
 --- !u!114 &6741556511027066188
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1445,14 +1475,7 @@ Animator:
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
-  m_WarningMessage: "\nBinding warning: Some generic clip(s) animate transforms that
-    are already bound by a Humanoid avatar. These transforms can only be changed
-    by Humanoid clips.\n\tTransform 'mixamorig1:Hips'\n\tTransform 'mixamorig1:LeftHandThumb1'\n\tTransform
-    'mixamorig1:LeftHandPinky2'\n\tTransform 'mixamorig1:RightHand'\n\tTransform
-    'mixamorig1:LeftHandMiddle2'\n\tTransform 'mixamorig1:RightFoot'\n\tTransform
-    'mixamorig1:Spine1'\n\tTransform 'mixamorig1:RightLeg'\n\tTransform 'mixamorig1:RightHandMiddle2'\n\tTransform
-    'mixamorig1:Hips'\n\tand more ...\n\tFrom animation clip 'Idle'\n\tFrom animation
-    clip 'Walking'\n\tFrom animation clip 'Victory'"
+  m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0

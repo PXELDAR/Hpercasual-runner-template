@@ -9,6 +9,7 @@ namespace PXELDAR
         //===================================================================================
 
         public const string collidableTag = "Collidable";
+
         private const string layerCollectible = "Collectible";
         private const string layerObstacle = "Obstacle";
         private const string layerGate = "Gate";
@@ -24,8 +25,8 @@ namespace PXELDAR
         public delegate void OnThemeSetDelegate();
         public event OnThemeSetDelegate OnThemeSet;
 
-        const string strMainColor = "_Color";
-        const string strSkyboxTintColor = "_TintColor";
+        private const string _mainColor = "_Color";
+        private const string _skyboxTintColor = "_TintColor";
 
         //===================================================================================
 
@@ -39,27 +40,20 @@ namespace PXELDAR
         public Transform platformHolder;
         public Transform playerHolder;
         public Transform chunkHolder;
-        public Transform collectiblePersonHolder;
-        public Transform suitCaseHolder;
         public Transform poolHolder;
         public Transform temporaryHolder;
-
-        [Header("Level Objects")]
-        public Transform trGround;
 
         [Space]
 
         [Header("Level Theme")]
-        public LevelTheme[] aLevelThemes;
+        public LevelTheme[] levelThemes;
 
-        [HideInInspector]
-        public LevelTheme chosenlevelTheme;
-        [HideInInspector]
-        public int[] collectibleColorIndexes;
-        public Material[] aGroundMaterials;
+        public LevelTheme chosenlevelTheme { get; private set; }
+        public int[] collectibleColorIndexes { get; private set; }
+        public Material[] groundMaterials;
         public Material skyboxMaterial, obstacleWithSameColorInAllSceneMaterial;
 
-        private int level;
+        private int _level;
 
         public Camera _camera;
 
@@ -131,7 +125,7 @@ namespace PXELDAR
 
         private void OnPrepareNewGame(bool bIsRematch = false)
         {
-            level = datas.GetCurrentLevel();
+            _level = datas.GetCurrentLevel();
 
             PrepareLevel();
         }
@@ -190,8 +184,6 @@ namespace PXELDAR
             DestroyAllChildrenIn(playerHolder);
             DestroyAllChildrenIn(chunkHolder);
             DestroyAllChildrenIn(temporaryHolder);
-            DestroyAllChildrenIn(collectiblePersonHolder);
-            DestroyAllChildrenIn(suitCaseHolder);
         }
 
         //===================================================================================
@@ -224,14 +216,14 @@ namespace PXELDAR
 
         private void SetRandomLevelTheme()
         {
-            if (aLevelThemes == null)
+            if (levelThemes == null)
             {
                 return;
             }
 
-            int nLevelThemesCount = aLevelThemes.Length;
+            int nLevelThemesCount = levelThemes.Length;
             int nRandIndex = Random.Range(0, nLevelThemesCount);
-            chosenlevelTheme = (aLevelThemes[nRandIndex] != null) ? aLevelThemes[nRandIndex] : aLevelThemes[0];
+            chosenlevelTheme = (levelThemes[nRandIndex] != null) ? levelThemes[nRandIndex] : levelThemes[0];
 
             collectibleColorIndexes = ExtensionMethods.FillStartingFromToCount(0, chosenlevelTheme.acolCollectibleMainColors.Length);   //sıralı liste doldur
             collectibleColorIndexes.Shuffle<int>();
@@ -250,20 +242,20 @@ namespace PXELDAR
 
             int nLevelThemeSkyColorsCount = chosenlevelTheme.acolSkyboxColors.Length;
             int nRandIndex = Random.Range(0, nLevelThemeSkyColorsCount);
-            if (level == 1)
+            if (_level == 1)
             {
                 nRandIndex = 1;
             }
             Color32 colCurrentSkybox = chosenlevelTheme.acolSkyboxColors[nRandIndex];
 
             nRandIndex = Random.Range(0, chosenlevelTheme.acolGroundColors.Length);
-            foreach (Material groundMaterial in aGroundMaterials)
+            foreach (Material groundMaterial in groundMaterials)
             {
-                groundMaterial.SetColor(strMainColor, chosenlevelTheme.acolGroundColors[nRandIndex]);
+                groundMaterial.SetColor(_mainColor, chosenlevelTheme.acolGroundColors[nRandIndex]);
             }
 
-            obstacleWithSameColorInAllSceneMaterial.SetColor(strMainColor, chosenlevelTheme.acolObstacleColors[Random.Range(0, chosenlevelTheme.acolObstacleColors.Length)]);
-            skyboxMaterial.SetColor(strSkyboxTintColor, colCurrentSkybox);
+            obstacleWithSameColorInAllSceneMaterial.SetColor(_mainColor, chosenlevelTheme.acolObstacleColors[Random.Range(0, chosenlevelTheme.acolObstacleColors.Length)]);
+            skyboxMaterial.SetColor(_skyboxTintColor, colCurrentSkybox);
             RenderSettings.fogColor = colCurrentSkybox;
 
             OnThemeSet?.Invoke();

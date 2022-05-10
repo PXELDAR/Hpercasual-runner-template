@@ -101,7 +101,6 @@ namespace PXELDAR
         [Header("PLAYER SECTION")]
         [HorizontalLine(3, EColor.Blue)]
         [SerializeField] private Transform playerPrefab;
-        [SerializeField] private Transform playerIndicatorPrefab;
         [SerializeField] private Vector2 playerOffsetToPlatform;
         public Transform player { get; private set; }
 

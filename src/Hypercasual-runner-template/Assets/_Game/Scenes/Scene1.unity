@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.3742594, g: 0.894931, b: 1.0361526, a: 1}
+  m_IndirectSpecularColor: {r: 0.43586475, g: 0.64793456, b: 1.0374526, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -253,12 +253,9 @@ MonoBehaviour:
   platformHolder: {fileID: 1457987624}
   playerHolder: {fileID: 1096772634}
   chunkHolder: {fileID: 701394414}
-  collectiblePersonHolder: {fileID: 0}
-  suitCaseHolder: {fileID: 0}
   poolHolder: {fileID: 1592343271}
-  temporaryHolder: {fileID: 0}
-  trGround: {fileID: 0}
-  aLevelThemes:
+  temporaryHolder: {fileID: 401642116}
+  levelThemes:
   - acolGroundColors:
     - serializedVersion: 2
       rgba: 4289247965
@@ -308,14 +305,7 @@ MonoBehaviour:
       rgba: 4282596409
     - serializedVersion: 2
       rgba: 4279045452
-  chosenlevelTheme:
-    acolGroundColors: []
-    acolSkyboxColors: []
-    acolCollectibleMainColors: []
-    acolCollectibleRimColors: []
-    acolObstacleColors: []
-  collectibleColorIndexes: 
-  aGroundMaterials:
+  groundMaterials:
   - {fileID: 2100000, guid: 198c38b951d9140489526083a6fa9c5b, type: 2}
   - {fileID: 2100000, guid: d27d7e0df6adbcc41998c4bddfe749a0, type: 2}
   skyboxMaterial: {fileID: 2100000, guid: dfcc2c9f289f216458e9370bc74218ba, type: 2}
@@ -372,7 +362,7 @@ MonoBehaviour:
     isLeftAndRightEnabled: 0
   generalLevelSpline:
     splineType: 0
-    chunkType: 00000000000000000000000000000000000000000000000000000000000000000000000000000000
+    chunkType: 00000000020000000200000003000000030000000200000003000000020000000300000000000000
     isLeftAndRightEnabled: 0
   isSplineGoingForward: 0
   minXSplinePointPosition: 0
@@ -381,13 +371,14 @@ MonoBehaviour:
   howManyPointsWillBeStraightAtTheBeginning: 0
   splineCurveList: []
   _currentSplinePointList: []
-  collectibleChunks: []
-  obstacleChunks: []
+  collectibleChunks:
+  - {fileID: 6116899075619542178, guid: f9bf971b1709d614d99b437f918e7d61, type: 3}
+  obstacleChunks:
+  - {fileID: 5293393915563375501, guid: 0e1eb4508155ef84e927f8040a3fbc41, type: 3}
   gateChunks: []
   stairChunks: []
   randomChunks: []
   playerPrefab: {fileID: 799380173802449787, guid: 434933917d5924b43aae10ba60a646b2, type: 3}
-  playerIndicatorPrefab: {fileID: 0}
   playerOffsetToPlatform: {x: 0, y: 0}
   environmentBuildingPrefabs:
   - {fileID: 3265515752389588382, guid: 3cb290cb9f5038b4d9ee95e73764a3ac, type: 3}
@@ -430,8 +421,39 @@ Transform:
   - {fileID: 1096772634}
   - {fileID: 701394414}
   - {fileID: 1592343271}
+  - {fileID: 401642116}
   m_Father: {fileID: 432703324}
   m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &401642115
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 401642116}
+  m_Layer: 0
+  m_Name: Temporary
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &401642116
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 401642115}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 255261351}
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &432703323
 GameObject:
@@ -990,7 +1012,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _dontDestroyOnLoad: 0
-  _objectsToPool: []
+  _objectsToPool:
+  - objectGroup: Collectible
+    layerName: Collectible
+    objectToBePooled:
+    - {fileID: 6694085114660770999, guid: 9b7be2d142eab1749aa630f40a245eed, type: 3}
+    count: 50
+    expandableList: 0
   _pooledObjects: []
 --- !u!114 &1537856592
 MonoBehaviour:
