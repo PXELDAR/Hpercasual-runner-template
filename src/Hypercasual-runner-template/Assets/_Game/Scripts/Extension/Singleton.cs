@@ -7,9 +7,6 @@ namespace PXELDAR
     {
         //===================================================================================
 
-        /// <summary>
-        /// Gets the instance.
-        /// </summary>
         public static T Instance
         {
             get
@@ -28,18 +25,12 @@ namespace PXELDAR
 
         //===================================================================================
 
-        /// <summary>
-        /// Override this method to have code run when this singleton is initialized which is guaranteed to run before Awake and Start.
-        /// </summary>
         protected virtual void OnRegistration()
         {
         }
 
         //===================================================================================
 
-        /// <summary>
-        /// Generic method that registers the singleton instance.
-        /// </summary>
         public void RegisterSingleton(T instance)
         {
             _instance = instance;
@@ -51,7 +42,6 @@ namespace PXELDAR
         {
             if (_dontDestroyOnLoad && _instance != null)
             {
-                //there is already an instance:
                 Destroy(gameObject);
                 return;
             }

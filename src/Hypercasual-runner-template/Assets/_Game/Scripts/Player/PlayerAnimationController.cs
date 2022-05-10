@@ -1,18 +1,94 @@
-using System.Collections;
-using System.Collections.Generic;
+using System;
 using UnityEngine;
 
-public class PlayerAnimationController : MonoBehaviour
+namespace PXELDAR
 {
-    // Start is called before the first frame update
-    void Start()
+    public class PlayerAnimationController : MonoBehaviour
     {
-        
-    }
+        //===================================================================================
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+        private Animator _animator;
+
+        private readonly int _idleAnimation = Animator.StringToHash("Idle");
+        private readonly int _walkAnimation = Animator.StringToHash("Walk");
+        private readonly int _victoryAnimation = Animator.StringToHash("Victory");
+
+        //===================================================================================
+
+        private void Awake()
+        {
+            _animator = GetComponent<Animator>();
+
+            if (!_animator)
+            {
+                _animator = GetComponentInChildren<Animator>();
+            }
+        }
+
+        //===================================================================================
+
+        private void Start()
+        {
+            SetIdleAnimation();
+        }
+
+        //===================================================================================
+
+        private void OnEnable()
+        {
+            InputController.OnFirstInput += OnFirstInput;
+            LevelManager.Instance.controller.OnPlayerReachedEndOfSpline += OnPlayerReachedEndOfSpline;
+        }
+
+        private void OnDisable()
+        {
+            InputController.OnFirstInput -= OnFirstInput;
+            LevelManager.Instance.controller.OnPlayerReachedEndOfSpline -= OnPlayerReachedEndOfSpline;
+        }
+
+        //===================================================================================
+
+        private void OnFirstInput()
+        {
+            SetWalkAnimation();
+        }
+
+        //===================================================================================
+
+        private void OnPlayerReachedEndOfSpline()
+        {
+            SetVictoryAnimation();
+        }
+
+        //===================================================================================
+
+        private void OnFinishGame(bool b)
+        {
+            SetVictoryAnimation();
+        }
+
+        //===================================================================================
+
+        private void SetIdleAnimation()
+        {
+            _animator.SetTrigger(_idleAnimation);
+        }
+
+        //===================================================================================
+
+        private void SetWalkAnimation()
+        {
+            _animator.SetTrigger(_walkAnimation);
+        }
+
+        //===================================================================================
+
+        private void SetVictoryAnimation()
+        {
+            _animator.SetTrigger(_victoryAnimation);
+        }
+
+        //===================================================================================
+
     }
 }

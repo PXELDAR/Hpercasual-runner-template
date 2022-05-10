@@ -9,13 +9,13 @@ namespace PXELDAR
     {
         //===================================================================================
 
-        [SerializeField] [Range(0, 2)] private float _playerPlatformXOffset;
-        [SerializeField] [Range(0, 90)] private float _maxRotationValue;
-        [SerializeField] [Range(0, 20)] private float _topSpeed;
+        [SerializeField][Range(0, 2)] private float _playerPlatformXOffset;
+        [SerializeField][Range(0, 90)] private float _maxRotationValue;
+        [SerializeField][Range(0, 20)] private float _topSpeed;
 
         public SplineComputer currentSplineComputer { get; private set; }
         public SplineFollower splineFollower { get; private set; }
-        
+
         private Vector3 _currentPlatformScale;
         private bool _isMoving;
 
@@ -45,7 +45,7 @@ namespace PXELDAR
             InputController.OnInputEnded += OnInputEnded;
 
             GameMotor.Instance.OnFinishGame += OnFinishGame;
-           
+
             splineFollower.onEndReached += OnEndReached;
         }
 
@@ -57,7 +57,7 @@ namespace PXELDAR
             InputController.OnInputEnded -= OnInputEnded;
 
             GameMotor.Instance.OnFinishGame -= OnFinishGame;
-            
+
             splineFollower.onEndReached -= OnEndReached;
         }
 
