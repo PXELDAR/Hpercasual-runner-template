@@ -534,9 +534,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _requiredStackForLevel: 10
-  _segmentHeight: -0.25
+  _segmentHeight: -1.5
   _segmentsDistanceFactor: 0
-  _segmentFollowSpeed: 10
+  _segmentFollowSpeed: 5
 --- !u!114 &6741556511027066188
 MonoBehaviour:
   m_ObjectHideFlags: 0

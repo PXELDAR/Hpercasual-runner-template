@@ -48,8 +48,8 @@ namespace PXELDAR
         public delegate void OnLevelIsCreatedDelegate();
         public event OnLevelIsCreatedDelegate OnLevelIsCreated;
 
-        public delegate void OnMoneyChangedDelegate(double newAmount = 0, double previousAmount = 0);
-        public event OnMoneyChangedDelegate OnMoneyChanged;
+        // public delegate void OnMoneyChangedDelegate(double newAmount = 0, double previousAmount = 0);
+        // public event OnMoneyChangedDelegate OnMoneyChanged;
 
         //
         // Player

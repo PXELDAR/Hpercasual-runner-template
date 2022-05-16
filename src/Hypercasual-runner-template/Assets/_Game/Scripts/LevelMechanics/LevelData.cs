@@ -6,24 +6,23 @@ namespace PXELDAR
     {
         //===================================================================================
 
-        public int nLevelNumber = 0;
-        public int nStageNumber = 1;
-        public int nStagesCount = 3;
+        public int levelNumber = 0;
+        public int stageNumber = 1;
+        public int stagesCount = 3;
 
-        public int nLevelSize = 1;
-        public int nThemeNumber = 1;
-        public int nGamePrepareCount = 0;
+        public int levelSize = 1;
+        public int themeNumber = 1;
+        public int gamePrepareCount = 0;
 
-        public bool bIsLevelFinished = false;
+        public bool isLevelFinished = false;
 
-        public int nScore = 0;
+        public int score = 0;
 
-        public float fRunDuration;
-        public int nReviveCount;
-        public int nCoins;
-        public int nGems;
-        public int nMagicBoxes;
-
+        public float runDuration;
+        public int reviveCount;
+        public int coins;
+        public int gems;
+        public int magicBoxes;
 
 
         //===================================================================================
@@ -62,13 +61,13 @@ namespace PXELDAR
 
         void ResetValues(bool bIncreaseLevel = false)
         {
-            nScore = 0;
+            score = 0;
 
-            nStageNumber = 1;
+            stageNumber = 1;
 
-            bIsLevelFinished = false;
+            isLevelFinished = false;
 
-            fRunDuration = 0;
+            runDuration = 0;
 
             if (bIncreaseLevel)
             {
@@ -81,14 +80,14 @@ namespace PXELDAR
 
         public void SetCurrentLevel(int nVal)
         {
-            nLevelNumber = nVal;
+            levelNumber = nVal;
         }
 
         //===================================================================================
 
         public int GetCurrentLevel()
         {
-            return nLevelNumber;
+            return levelNumber;
         }
 
 
@@ -100,7 +99,7 @@ namespace PXELDAR
 
         public void UpdatePlayerStats()
         {
-            int nLastFinishedLevel = nLevelNumber;
+            int nLastFinishedLevel = levelNumber;
 
             // register last finished level
             // PlayerStatsManager.Instance.SetLastFinishedLevel(nLastFinishedLevel);
@@ -111,7 +110,7 @@ namespace PXELDAR
             SetCurrentLevel(nLastFinishedLevel + 1);
 
             // register if highscore
-            int nCurrentScore = nScore;
+            int nCurrentScore = score;
             // PlayerStatsManager.Instance.UpdateIfHighscore(nCurrentScore);
         }
 
@@ -139,21 +138,21 @@ namespace PXELDAR
 
         public int GetScore()
         {
-            return nScore;
+            return score;
         }
 
         //===================================================================================
 
         public void SetScore(int nValue)
         {
-            nScore = nValue;
+            score = nValue;
         }
 
         //===================================================================================
 
         public void IncreaseScore(int nIncOrDec = 1)
         {
-            nScore += nIncOrDec;
+            score += nIncOrDec;
         }
 
         //===================================================================================
@@ -180,21 +179,21 @@ namespace PXELDAR
 
         public int GetCoins()
         {
-            return nCoins;
+            return coins;
         }
 
         //===================================================================================
 
         public void SetCoins(int nValue)
         {
-            nCoins = nValue;
+            coins = nValue;
         }
 
         //===================================================================================
 
         public void IncreaseCoins(int nIncOrDec = 1)
         {
-            nCoins += nIncOrDec;
+            coins += nIncOrDec;
         }
 
         //===================================================================================
@@ -207,21 +206,21 @@ namespace PXELDAR
 
         public int GetMagicBoxes()
         {
-            return nMagicBoxes;
+            return magicBoxes;
         }
 
         //===================================================================================
 
         public void SetMagicBoxes(int nValue)
         {
-            nMagicBoxes = nValue;
+            magicBoxes = nValue;
         }
 
         //===================================================================================
 
         public void IncreaseMagicBoxes(int nIncOrDec = 1)
         {
-            nMagicBoxes += nIncOrDec;
+            magicBoxes += nIncOrDec;
         }
 
 
@@ -233,21 +232,21 @@ namespace PXELDAR
 
         public int GetGems()
         {
-            return nGems;
+            return gems;
         }
 
         //===================================================================================
 
         public void SetGems(int nValue)
         {
-            nGems = nValue;
+            gems = nValue;
         }
 
         //===================================================================================
 
         public void IncreaseGems(int nIncOrDec = 1)
         {
-            nGems += nIncOrDec;
+            gems += nIncOrDec;
         }
 
 
@@ -259,21 +258,21 @@ namespace PXELDAR
 
         public int GetReviveCount()
         {
-            return nReviveCount;
+            return reviveCount;
         }
 
         //===================================================================================
 
         public void SetReviveCount(int nValue)
         {
-            nReviveCount = nValue;
+            reviveCount = nValue;
         }
 
         //===================================================================================
 
         public void IncreaseReviveCount(int nIncOrDec = 1)
         {
-            nReviveCount += nIncOrDec;
+            reviveCount += nIncOrDec;
         }
 
         //===================================================================================

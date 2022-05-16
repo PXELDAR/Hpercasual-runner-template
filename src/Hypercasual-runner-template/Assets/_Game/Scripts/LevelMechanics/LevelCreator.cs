@@ -155,7 +155,7 @@ namespace PXELDAR
 
         private void SetSplineVariables()
         {
-            int currentLevel = LevelManager.Instance.datas.GetCurrentLevel();
+            int currentLevel = LevelManager.Instance.data.GetCurrentLevel();
 
             switch (currentLevel)
             {
@@ -508,7 +508,7 @@ namespace PXELDAR
         {
             if (startPlatform)
             {
-                Transform platform = Instantiate(startPlatform, currentPlatformSplineComputer.GetPoint(0).position/* + Vector3.back * 10*/, Quaternion.identity, LevelManager.Instance.platformHolder);
+                Transform platform = Instantiate(startPlatform, currentPlatformSplineComputer.GetPoint(0).position + Vector3.back * 10, Quaternion.identity, LevelManager.Instance.platformHolder);
 
                 platform.localScale = splineScale;
             }

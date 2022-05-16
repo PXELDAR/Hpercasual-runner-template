@@ -31,7 +31,7 @@ namespace PXELDAR
         //===================================================================================
 
         public LevelController controller { get; private set; }
-        public LevelData datas { get; private set; }
+        public LevelData data { get; private set; }
         public LevelCreator creator { get; private set; }
 
 
@@ -64,7 +64,7 @@ namespace PXELDAR
         private void Awake()
         {
             controller = gameObject.AddComponent<LevelController>();
-            datas = gameObject.AddComponent<LevelData>();
+            data = gameObject.AddComponent<LevelData>();
             creator = GetComponent<LevelCreator>();
 
             if (!creator)
@@ -125,7 +125,7 @@ namespace PXELDAR
 
         private void OnPrepareNewGame(bool bIsRematch = false)
         {
-            _level = datas.GetCurrentLevel();
+            _level = data.GetCurrentLevel();
 
             PrepareLevel();
         }
@@ -134,8 +134,8 @@ namespace PXELDAR
 
         private void OnLevelFailed()
         {
-            datas.bIsLevelFinished = true;
-            datas.SetScore(0);
+            data.isLevelFinished = true;
+            data.SetScore(0);
             controller.UpdateScoreValue();
             StartCoroutine(PlayFailAnimation());
             GameMotor.Instance.FinishGame(false);
@@ -145,9 +145,9 @@ namespace PXELDAR
 
         private void OnLevelCompleted()
         {
-            datas.bIsLevelFinished = true;
+            data.isLevelFinished = true;
             controller.UpdateScoreValue();
-            datas.SaveEarningsOfCurrentInstance();
+            data.SaveEarningsOfCurrentInstance();
             GameMotor.Instance.FinishGame();
         }
 
