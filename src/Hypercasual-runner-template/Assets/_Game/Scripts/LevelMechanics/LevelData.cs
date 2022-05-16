@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 namespace PXELDAR
 {
@@ -6,315 +7,163 @@ namespace PXELDAR
     {
         //===================================================================================
 
-        public int levelNumber = 0;
-        public int stageNumber = 1;
-        public int stagesCount = 3;
+        private int _level;
+        private int _money;
+        private int _levelMoney;
 
-        public int levelSize = 1;
-        public int themeNumber = 1;
-        public int gamePrepareCount = 0;
-
-        public bool isLevelFinished = false;
-
-        public int score = 0;
-
-        public float runDuration;
-        public int reviveCount;
-        public int coins;
-        public int gems;
-        public int magicBoxes;
-
+        private const string _levelKey = "game_level";
+        private const string _moneyKey = "game_money";
 
         //===================================================================================
 
-        void Awake()
-        {
-            ResetValues(true);
-        }
-
-        //===================================================================================
-
-        void OnEnable()
+        private void OnEnable()
         {
             GameMotor.Instance.OnPrepareNewGame += OnPrepareNewGame;
-            GameMotor.Instance.OnStartGame += OnStartGame;
             GameMotor.Instance.OnFinishGame += OnFinishGame;
         }
 
         //===================================================================================
 
-        void OnDisable()
+        private void OnDisable()
         {
             GameMotor.Instance.OnPrepareNewGame -= OnPrepareNewGame;
-            GameMotor.Instance.OnStartGame -= OnStartGame;
             GameMotor.Instance.OnFinishGame -= OnFinishGame;
         }
 
         //===================================================================================
 
-        void OnPrepareNewGame()
+        private void OnPrepareNewGame(bool b)
         {
-            ResetValues();
+            LoadGameData();
+
+            _levelMoney = 0;
         }
 
         //===================================================================================
 
-        void ResetValues(bool bIncreaseLevel = false)
+        private void OnFinishGame(bool isWin = true)
         {
-            score = 0;
-
-            stageNumber = 1;
-
-            isLevelFinished = false;
-
-            runDuration = 0;
-
-            if (bIncreaseLevel)
+            if (isWin)
             {
-                // int nMaxFinishedLevel = PlayerStatsManager.Instance.GetMaxFinishedLevel();
-                // SetCurrentLevel(++nMaxFinishedLevel);
+                SetCurrentLevel(_level + 1);
+                SetCurrentMoney(_money + _levelMoney);
+            }
+            else
+            {
+                _levelMoney = 0;
             }
         }
 
         //===================================================================================
 
-        public void SetCurrentLevel(int nVal)
+        private void LoadGameData()
         {
-            levelNumber = nVal;
+            LoadLevelData();
+            LoadMoneyData();
+        }
+
+        //===================================================================================
+
+        private void LoadLevelData()
+        {
+            if (PlayerPrefs.HasKey(_levelKey))
+            {
+                _level = PlayerPrefs.GetInt(_levelKey);
+            }
+            else
+            {
+                _level = 1;
+            }
+        }
+
+        //===================================================================================
+
+        private void LoadMoneyData()
+        {
+            if (PlayerPrefs.HasKey(_moneyKey))
+            {
+                _money = PlayerPrefs.GetInt(_moneyKey);
+            }
+            else
+            {
+                _money = 0;
+            }
+
+            LevelManager.Instance.controller.MoneyChanged(_money, 0);
+        }
+
+        //===================================================================================
+
+        private void SaveGameData()
+        {
+            SaveLevelData();
+            SaveMoneyData();
+        }
+
+        //===================================================================================
+
+        private void SaveLevelData()
+        {
+            PlayerPrefs.SetInt(_levelKey, _level);
+        }
+
+        //===================================================================================
+
+        private void SaveMoneyData()
+        {
+            PlayerPrefs.SetFloat(_moneyKey, _money);
         }
 
         //===================================================================================
 
         public int GetCurrentLevel()
         {
-            return levelNumber;
+            return _level;
         }
 
-
-        //===================================================================================
-        //
-        // UPDATE PLAYER STATS
-        //
         //===================================================================================
 
-        public void UpdatePlayerStats()
+        public void SetCurrentLevel(int level)
         {
-            int nLastFinishedLevel = levelNumber;
-
-            // register last finished level
-            // PlayerStatsManager.Instance.SetLastFinishedLevel(nLastFinishedLevel);
-
-            // register if max level
-            // PlayerStatsManager.Instance.SetMaxFinishedLevel(nLastFinishedLevel);
-
-            SetCurrentLevel(nLastFinishedLevel + 1);
-
-            // register if highscore
-            int nCurrentScore = score;
-            // PlayerStatsManager.Instance.UpdateIfHighscore(nCurrentScore);
+            _level = level;
+            SaveLevelData();
         }
 
         //===================================================================================
-        //
-        // CURRENTs INSTANCE EARNINGS
-        //
-        //===================================================================================
 
-        public void SaveEarningsOfCurrentInstance()
+        public int GetCurrentMoney()
         {
-            // save coins
-            // InventoryManager.Instance.IncreaseCoinsCount(nCoins);
-
-            // save gems
-            // InventoryManager.Instance.IncreaseGemsCount(nGems);
+            return _money;
         }
 
-
-        //===================================================================================
-        //
-        // SCORE
-        //
         //===================================================================================
 
-        public int GetScore()
+        public void SetCurrentMoney(int value)
         {
-            return score;
+            _money = value;
+            SaveMoneyData();
         }
 
         //===================================================================================
 
-        public void SetScore(int nValue)
+        public int GetLevelMoney()
         {
-            score = nValue;
+            return _levelMoney;
         }
 
         //===================================================================================
 
-        public void IncreaseScore(int nIncOrDec = 1)
+        public void IncreaseLevelMoney(int value = 1)
         {
-            score += nIncOrDec;
+            int previousMoney = _levelMoney;
+            int newMoney = _levelMoney + value;
+
+            _levelMoney += value;
+
+            LevelManager.Instance.controller.MoneyChanged(newMoney, previousMoney);
         }
 
         //===================================================================================
-
-        public bool IsHighscore()
-        {
-            int nCurrentScore = GetScore();
-            // bool bRet = PlayerStatsManager.Instance.IsHighscore(nCurrentScore);
-
-            // return bRet;
-
-            return false;
-        }
-
-
-        //===================================================================================
-
-
-        //===================================================================================
-        //
-        // COINS
-        //
-        //===================================================================================
-
-        public int GetCoins()
-        {
-            return coins;
-        }
-
-        //===================================================================================
-
-        public void SetCoins(int nValue)
-        {
-            coins = nValue;
-        }
-
-        //===================================================================================
-
-        public void IncreaseCoins(int nIncOrDec = 1)
-        {
-            coins += nIncOrDec;
-        }
-
-        //===================================================================================
-
-        //===================================================================================
-        //
-        // MAGIC BOXES
-        //
-        //===================================================================================
-
-        public int GetMagicBoxes()
-        {
-            return magicBoxes;
-        }
-
-        //===================================================================================
-
-        public void SetMagicBoxes(int nValue)
-        {
-            magicBoxes = nValue;
-        }
-
-        //===================================================================================
-
-        public void IncreaseMagicBoxes(int nIncOrDec = 1)
-        {
-            magicBoxes += nIncOrDec;
-        }
-
-
-        //===================================================================================
-        //
-        // KEYS
-        //
-        //===================================================================================
-
-        public int GetGems()
-        {
-            return gems;
-        }
-
-        //===================================================================================
-
-        public void SetGems(int nValue)
-        {
-            gems = nValue;
-        }
-
-        //===================================================================================
-
-        public void IncreaseGems(int nIncOrDec = 1)
-        {
-            gems += nIncOrDec;
-        }
-
-
-        //===================================================================================
-        //
-        // REVIVE COUNT
-        //
-        //===================================================================================
-
-        public int GetReviveCount()
-        {
-            return reviveCount;
-        }
-
-        //===================================================================================
-
-        public void SetReviveCount(int nValue)
-        {
-            reviveCount = nValue;
-        }
-
-        //===================================================================================
-
-        public void IncreaseReviveCount(int nIncOrDec = 1)
-        {
-            reviveCount += nIncOrDec;
-        }
-
-        //===================================================================================
-
-
-        //===================================================================================
-        //
-        // EVENTS TO IMPLEMENT
-        //
-        //===================================================================================
-
-        void OnPrepareNewGame(bool bIsRematch = false)
-        {
-            ResetValues(!bIsRematch);
-        }
-
-        //===================================================================================
-
-
-        void OnStartGame()
-        {
-        }
-
-        //===================================================================================
-
-        void OnFinishGame(bool bWin = true)
-        {
-            if (bWin)
-            {
-                UpdatePlayerStats();
-            }
-
-            // PlayerStatsManager.Instance.IncreasePlayedGamesCount();
-
-            // PlayerStatsManager.Instance.IncreaseTotalPlayDuration(fRunDuration);
-        }
-
-        //===================================================================================
-
-
-
-
 
     }
 }

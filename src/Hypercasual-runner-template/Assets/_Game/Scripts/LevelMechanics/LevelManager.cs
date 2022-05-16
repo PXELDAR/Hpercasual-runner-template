@@ -8,17 +8,16 @@ namespace PXELDAR
     {
         //===================================================================================
 
+        public int collectibleLayer { get; private set; }
+        public int obstacleLayer { get; private set; }
+        public int gateLayer { get; private set; }
+        public int stairLayer { get; private set; }
         public const string collidableTag = "Collidable";
 
-        private const string layerCollectible = "Collectible";
-        private const string layerObstacle = "Obstacle";
-        private const string layerGate = "Gate";
-        private const string layerStair = "Stair";
-
-        public int collectibleLayer;
-        public int obstacleLayer;
-        public int gateLayer;
-        public int stairLayer;
+        private const string _layerCollectible = "Collectible";
+        private const string _layerObstacle = "Obstacle";
+        private const string _layerGate = "Gate";
+        private const string _layerStair = "Stair";
 
         //===================================================================================
 
@@ -72,10 +71,10 @@ namespace PXELDAR
                 Debug.LogError("Assign level creator component to: ", this);
             }
 
-            collectibleLayer = LayerMask.NameToLayer(layerCollectible);
-            obstacleLayer = LayerMask.NameToLayer(layerObstacle);
-            gateLayer = LayerMask.NameToLayer(layerGate);
-            stairLayer = LayerMask.NameToLayer(layerStair);
+            collectibleLayer = LayerMask.NameToLayer(_layerCollectible);
+            obstacleLayer = LayerMask.NameToLayer(_layerObstacle);
+            gateLayer = LayerMask.NameToLayer(_layerGate);
+            stairLayer = LayerMask.NameToLayer(_layerStair);
 
             _camera = Camera.main;
         }
@@ -134,8 +133,6 @@ namespace PXELDAR
 
         private void OnLevelFailed()
         {
-            data.isLevelFinished = true;
-            data.SetScore(0);
             controller.UpdateScoreValue();
             StartCoroutine(PlayFailAnimation());
             GameMotor.Instance.FinishGame(false);
@@ -145,9 +142,7 @@ namespace PXELDAR
 
         private void OnLevelCompleted()
         {
-            data.isLevelFinished = true;
             controller.UpdateScoreValue();
-            data.SaveEarningsOfCurrentInstance();
             GameMotor.Instance.FinishGame();
         }
 

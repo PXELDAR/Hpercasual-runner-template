@@ -2,6 +2,7 @@ using UnityEngine;
 using TMPro;
 using DG.Tweening;
 using System.Collections;
+using System;
 
 namespace PXELDAR
 {
@@ -10,7 +11,7 @@ namespace PXELDAR
         //===================================================================================
 
         [SerializeField] private TextMeshProUGUI _levelText;
-        [SerializeField] private TextMeshProUGUI _scoreText;
+        [SerializeField] private TextMeshProUGUI _moneyText;
         [SerializeField] private TextMeshProUGUI _moneyIncreaseText;
         [SerializeField] private GameObject _controlHelper;
         [SerializeField] private RectTransform _controlHelperHand;
@@ -28,18 +29,23 @@ namespace PXELDAR
         private const string _plus = "+";
         private const string _minus = "-";
 
+
         //===================================================================================
 
         private void OnEnable()
         {
-            GameMotor.Instance.OnPrepareNewGame += OnPrepareNewGame;
             GameMotor.Instance.OnStartGame += OnStartGame;
+            GameMotor.Instance.OnPrepareNewGame += OnPrepareNewGame;
+            LevelManager.Instance.controller.OnLevelIsCreated += OnLevelIsCreated;
+            LevelManager.Instance.controller.OnMoneyChanged += OnMoneyChanged;
         }
 
         private void OnDisable()
         {
-            GameMotor.Instance.OnPrepareNewGame -= OnPrepareNewGame;
             GameMotor.Instance.OnStartGame -= OnStartGame;
+            GameMotor.Instance.OnPrepareNewGame -= OnPrepareNewGame;
+            LevelManager.Instance.controller.OnLevelIsCreated -= OnLevelIsCreated;
+            LevelManager.Instance.controller.OnMoneyChanged -= OnMoneyChanged;
         }
 
         //===================================================================================
@@ -57,6 +63,57 @@ namespace PXELDAR
         private void OnPrepareNewGame(bool isRematch)
         {
             UpdateLevelLabels();
+        }
+
+        //===================================================================================
+
+        private void OnLevelIsCreated()
+        {
+                
+        }
+
+        //===================================================================================
+
+        private void OnMoneyChanged(double newAmount, double previousAmount)
+        {
+            if (_moneyIncreaseTween != null)
+            {
+                if (_moneyIncreaseTween.IsPlaying())
+                {
+                    _moneyIncreaseTween.Kill();
+                }
+            }
+
+            _moneyIncreaseTween = DOVirtual.Float((float)previousAmount, (float)newAmount, 1f, OnMoneyValueChanged);
+
+            double difference = newAmount - previousAmount;
+            string operative = string.Empty;
+
+            if (difference > 0)
+            {
+                operative = _plus;
+            }
+
+            if (operative != "")
+            {
+                _moneyIncreaseText.text = operative + difference;
+            }
+            else
+            {
+                _moneyIncreaseText.text = difference.ToString();
+            }
+
+            MoveMoneyIncreaseText();
+        }
+
+        //===================================================================================
+
+        private void OnMoneyValueChanged(float value)
+        {
+            if (_moneyText)
+            {
+                _moneyText.SetText(value.ToString("F0"));
+            }
         }
 
         //===================================================================================
@@ -97,7 +154,7 @@ namespace PXELDAR
 
         private void UpdateLevelLabels()
         {
-            int currentLevel = LevelManager.Instance.data.levelNumber;
+            int currentLevel = LevelManager.Instance.data.GetCurrentLevel();
 
             if (_levelText)
             {
@@ -107,6 +164,23 @@ namespace PXELDAR
 
         //===================================================================================
 
+        private void MoveMoneyIncreaseText()
+        {
+            _moneyIncreaseText.rectTransform
+                .DOAnchorPos(new Vector2(35, -25), 0);
+
+            _moneyIncreaseText
+                .DOFade(1, 0).SetEase(Ease.InQuint);
+
+            _moneyIncreaseText.rectTransform
+                .DOAnchorPos(new Vector2(75, -75), 3)
+                .SetEase(Ease.OutQuint);
+
+            _moneyIncreaseText
+                .DOFade(0, 1.5f).SetEase(Ease.InQuint);
+        }
+
+        //===================================================================================
 
     }
 }

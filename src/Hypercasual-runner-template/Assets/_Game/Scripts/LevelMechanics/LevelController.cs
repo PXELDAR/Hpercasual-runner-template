@@ -6,6 +6,9 @@ namespace PXELDAR
     {
         //===================================================================================
 
+        private bool _isLevelEnded;
+        private int _diamondAmount;
+
         //
         // Level
         //
@@ -30,7 +33,7 @@ namespace PXELDAR
         //
         // Generic
         //
-        public delegate void OnLevelProgressValueChangedDelegate(float fMin, float fMax, float fVal);
+        public delegate void OnLevelProgressValueChangedDelegate(float min, float max, float value);
         public event OnLevelProgressValueChangedDelegate OnLevelProgressValueChanged;
 
         public delegate void OnScoreValueChangedDelegate();
@@ -39,17 +42,14 @@ namespace PXELDAR
         public delegate void OnDiamondAmountChangedDelegate(int amount);
         public event OnDiamondAmountChangedDelegate OnDiamondAmountChanged;
 
-        private bool isLevelEnded;
-        private int diamondAmount;
-
         //
         // In Game
         //
         public delegate void OnLevelIsCreatedDelegate();
         public event OnLevelIsCreatedDelegate OnLevelIsCreated;
 
-        // public delegate void OnMoneyChangedDelegate(double newAmount = 0, double previousAmount = 0);
-        // public event OnMoneyChangedDelegate OnMoneyChanged;
+        public delegate void OnMoneyChangedDelegate(double newAmount = 0, double previousAmount = 0);
+        public event OnMoneyChangedDelegate OnMoneyChanged;
 
         //
         // Player
@@ -93,19 +93,19 @@ namespace PXELDAR
 
         private void OnPrepareNewGame(bool bIsRematch = false)
         {
-            diamondAmount = PlayerPrefs.GetInt("diamond");
-            ChangeDiamondAmount(diamondAmount);
+            _diamondAmount = PlayerPrefs.GetInt("diamond");
+            ChangeDiamondAmount(_diamondAmount);
 
-            isLevelEnded = false;
+            _isLevelEnded = false;
         }
 
         //===================================================================================
 
         public void FailLevel()
         {
-            if (!isLevelEnded)
+            if (!_isLevelEnded)
             {
-                isLevelEnded = true;
+                _isLevelEnded = true;
                 OnLevelFailed?.Invoke();
             }
         }
@@ -114,10 +114,10 @@ namespace PXELDAR
 
         public void CompleteLevel()
         {
-            if (!isLevelEnded)
+            if (!_isLevelEnded)
             {
-                PlayerPrefs.SetInt("diamond", diamondAmount);
-                isLevelEnded = true;
+                PlayerPrefs.SetInt("diamond", _diamondAmount);
+                _isLevelEnded = true;
                 OnLevelCompleted?.Invoke();
             }
 
@@ -127,9 +127,9 @@ namespace PXELDAR
 
         public void DrawLevel()
         {
-            if (!isLevelEnded)
+            if (!_isLevelEnded)
             {
-                isLevelEnded = true;
+                _isLevelEnded = true;
                 OnLevelDraw?.Invoke();
             }
         }
@@ -157,9 +157,9 @@ namespace PXELDAR
 
         //===================================================================================
 
-        public void ChangeLevelProgressValue(float fMin, float fMax, float fVal)
+        public void ChangeLevelProgressValue(float min, float max, float value)
         {
-            OnLevelProgressValueChanged?.Invoke(fMin, fMax, fVal);
+            OnLevelProgressValueChanged?.Invoke(min, max, value);
         }
 
         //===================================================================================
@@ -173,8 +173,8 @@ namespace PXELDAR
 
         public void DiamondIncreased(int amount = 1)
         {
-            diamondAmount++;
-            ChangeDiamondAmount(diamondAmount);
+            _diamondAmount++;
+            ChangeDiamondAmount(_diamondAmount);
         }
 
         //===================================================================================
@@ -189,6 +189,13 @@ namespace PXELDAR
         public void LevelIsCreated()
         {
             OnLevelIsCreated?.Invoke();
+        }
+
+        //===================================================================================
+
+        public void MoneyChanged(double newAmount = 0, double previousAmount = 0)
+        {
+            OnMoneyChanged?.Invoke(newAmount, previousAmount);
         }
 
         //===================================================================================
