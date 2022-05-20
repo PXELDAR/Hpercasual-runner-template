@@ -197,6 +197,10 @@ namespace PXELDAR
                     }
                 }
             }
+            else
+            {
+                LevelManager.Instance.controller.FailLevel();
+            }
         }
 
         //===================================================================================

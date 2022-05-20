@@ -38,12 +38,14 @@ namespace PXELDAR
         {
             InputController.OnFirstInput += OnFirstInput;
             LevelManager.Instance.controller.OnPlayerReachedEndOfSpline += OnPlayerReachedEndOfSpline;
+            LevelManager.Instance.controller.OnLevelFailed += OnLevelFailed;
         }
 
         private void OnDisable()
         {
             InputController.OnFirstInput -= OnFirstInput;
             LevelManager.Instance.controller.OnPlayerReachedEndOfSpline -= OnPlayerReachedEndOfSpline;
+            LevelManager.Instance.controller.OnLevelFailed -= OnLevelFailed;
         }
 
         //===================================================================================
@@ -58,6 +60,13 @@ namespace PXELDAR
         private void OnPlayerReachedEndOfSpline()
         {
             SetVictoryAnimation();
+        }
+
+        //===================================================================================
+
+        private void OnLevelFailed()
+        {
+            throw new NotImplementedException();
         }
 
         //===================================================================================

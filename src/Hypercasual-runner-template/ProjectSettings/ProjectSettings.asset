@@ -597,6 +597,7 @@ PlayerSettings:
   scriptingDefineSymbols:
     1: DREAMTECK_SPLINES
     4: DREAMTECK_SPLINES
+    7: DREAMTECK_SPLINES
   additionalCompilerArguments: {}
   platformArchitecture: {}
   scriptingBackend: {}

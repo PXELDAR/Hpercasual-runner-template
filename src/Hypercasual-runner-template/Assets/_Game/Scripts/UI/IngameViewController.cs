@@ -2,7 +2,6 @@ using UnityEngine;
 using TMPro;
 using DG.Tweening;
 using System.Collections;
-using System;
 
 namespace PXELDAR
 {
@@ -54,8 +53,7 @@ namespace PXELDAR
         {
             //bool showControlsHelpers = LevelManager.Instance.data.GetCurrentLevel() <= 3;
 
-            bool showControlHelpers = true;
-            StartCoroutine(ShowControlsHelpers(showControlHelpers));
+            StartCoroutine(ShowControlsHelpers(true));
         }
 
         //===================================================================================
@@ -69,7 +67,7 @@ namespace PXELDAR
 
         private void OnLevelIsCreated()
         {
-                
+
         }
 
         //===================================================================================
@@ -158,7 +156,7 @@ namespace PXELDAR
 
             if (_levelText)
             {
-                _levelText.SetText(_level + string.Empty + currentLevel);
+                _levelText.SetText(_level + " " + currentLevel);
             }
         }
 
