@@ -1,5 +1,7 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 
 namespace PXELDAR
 {
@@ -15,7 +17,6 @@ namespace PXELDAR
         [SerializeField] private float _segmentFollowSpeed = 30;
 
         private List<CollectibleController> _stackedCollectibleList;
-        // private List<MMFeedbacks> _feedbackList;
 
         private int _stackCount => _stackedCollectibleList?.Count ?? 0;
         private int _stackLevel;
@@ -122,14 +123,11 @@ namespace PXELDAR
 
                 _stackedCollectibleList.Add(collectible);
 
-                // _feedbackList.Add(collectible.feedback);
-
                 LevelManager.Instance.controller.PlayerStackChanged(_stackCount, previousStackCount);
-
 
                 CheckStackLevelState();
 
-                // StartCoroutine(DoCollectedFeedback());
+                StartCoroutine(DoCollectedFeedback());
             }
         }
 
@@ -269,14 +267,22 @@ namespace PXELDAR
 
         //===================================================================================
 
-        // private IEnumerator DoCollectedFeedback()
-        // {
-        //     for (int index = 0; index < _feedbackList.Count; index++)
-        //     {
-        //         _feedbackList[index].PlayFeedbacks();
-        //         yield return new WaitForSeconds(0.05f);
-        //     }
-        // }
+        private IEnumerator DoCollectedFeedback()
+        {
+            for (int index = 0; index < _stackedCollectibleList.Count; index++)
+            {
+                Transform body = _stackedCollectibleList[index].transform.GetChild(0);
+
+                DOTween.Kill(body);
+                body.DOScale(Vector3.one, 0);
+
+                body
+                .DOPunchScale(Vector3.one * 0.7f, 0.75f, 0, 0)
+                .SetEase(Ease.InSine);
+
+                yield return new WaitForSeconds(0.05f);
+            }
+        }
 
         //===================================================================================
     }

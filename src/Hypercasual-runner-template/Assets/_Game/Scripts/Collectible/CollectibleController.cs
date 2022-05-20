@@ -15,20 +15,7 @@ namespace PXELDAR
 
         public void OnCollision()
         {
-            DoScaleFeedback();
             SendMoneyInfo();
-        }
-
-        //===================================================================================
-
-        private void DoScaleFeedback()
-        {
-            transform
-            .DOScale(Vector3.one * _scaleFeedbackValue, _feedbackTime)
-            .OnComplete(() =>
-            {
-                transform.DOScale(Vector3.one, _feedbackTime);
-            });
         }
 
         //===================================================================================

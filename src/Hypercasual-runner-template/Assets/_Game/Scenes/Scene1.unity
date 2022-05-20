@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.58192843, g: 0.50049525, b: 0.939156, a: 1}
+  m_IndirectSpecularColor: {r: 0.43586475, g: 0.64793456, b: 1.0374526, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -494,8 +494,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _levelText: {fileID: 1747195968}
-  _scoreText: {fileID: 1726208137}
-  _scoreIncreaseText: {fileID: 2003011272}
+  _moneyText: {fileID: 1726208137}
+  _moneyIncreaseText: {fileID: 2003011272}
   _controlHelper: {fileID: 1689194669}
   _controlHelperHand: {fileID: 622320264}
 --- !u!1 &255261350

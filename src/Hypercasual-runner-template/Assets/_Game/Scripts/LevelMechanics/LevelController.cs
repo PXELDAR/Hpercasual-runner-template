@@ -116,11 +116,9 @@ namespace PXELDAR
         {
             if (!_isLevelEnded)
             {
-                PlayerPrefs.SetInt("diamond", _diamondAmount);
                 _isLevelEnded = true;
                 OnLevelCompleted?.Invoke();
             }
-
         }
 
         //===================================================================================
