@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 
 namespace PXELDAR
 {
@@ -7,12 +7,11 @@ namespace PXELDAR
     {
         //===================================================================================
 
-        public Color32[] acolGroundColors;
-        public Color32[] acolSkyboxColors;
-        public Color32[] acolCollectibleMainColors;
-        public Color32[] acolCollectibleRimColors;
-
-        public Color32[] acolObstacleColors;
+        public Color32[] groundColors;
+        public Color32[] skyboxColors;
+        public Color32[] collectibleMainColors;
+        public Color32[] collectibleRimColors;
+        public Color32[] obstacleColors;
 
         //===================================================================================
 

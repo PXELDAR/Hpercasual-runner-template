@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.37425697, g: 0.8949253, b: 1.0361458, a: 1}
+  m_IndirectSpecularColor: {r: 0.4353226, g: 0.64712286, b: 1.0361458, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -323,7 +323,7 @@ MonoBehaviour:
   poolHolder: {fileID: 1592343271}
   temporaryHolder: {fileID: 401642116}
   levelThemes:
-  - acolGroundColors:
+  - groundColors:
     - serializedVersion: 2
       rgba: 4289247965
     - serializedVersion: 2
@@ -332,7 +332,7 @@ MonoBehaviour:
       rgba: 4292716732
     - serializedVersion: 2
       rgba: 4292729512
-    acolSkyboxColors:
+    skyboxColors:
     - serializedVersion: 2
       rgba: 4292895408
     - serializedVersion: 2
@@ -345,7 +345,7 @@ MonoBehaviour:
       rgba: 4294958172
     - serializedVersion: 2
       rgba: 4293558931
-    acolCollectibleMainColors:
+    collectibleMainColors:
     - serializedVersion: 2
       rgba: 4285672665
     - serializedVersion: 2
@@ -356,7 +356,7 @@ MonoBehaviour:
       rgba: 4281559550
     - serializedVersion: 2
       rgba: 4293158123
-    acolCollectibleRimColors:
+    collectibleRimColors:
     - serializedVersion: 2
       rgba: 4290339065
     - serializedVersion: 2
@@ -367,7 +367,7 @@ MonoBehaviour:
       rgba: 4280843007
     - serializedVersion: 2
       rgba: 4293232895
-    acolObstacleColors:
+    obstacleColors:
     - serializedVersion: 2
       rgba: 4282596409
     - serializedVersion: 2

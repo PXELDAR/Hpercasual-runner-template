@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -220,7 +220,7 @@ namespace PXELDAR
             int nRandIndex = Random.Range(0, nLevelThemesCount);
             chosenlevelTheme = (levelThemes[nRandIndex] != null) ? levelThemes[nRandIndex] : levelThemes[0];
 
-            collectibleColorIndexes = ExtensionMethods.FillStartingFromToCount(0, chosenlevelTheme.acolCollectibleMainColors.Length);   //sıralı liste doldur
+            collectibleColorIndexes = ExtensionMethods.FillStartingFromToCount(0, chosenlevelTheme.collectibleMainColors.Length);   //sıralı liste doldur
             collectibleColorIndexes.Shuffle<int>();
 
             SetRandomLevelThemeGround();
@@ -235,21 +235,21 @@ namespace PXELDAR
                 return;
             }
 
-            int nLevelThemeSkyColorsCount = chosenlevelTheme.acolSkyboxColors.Length;
+            int nLevelThemeSkyColorsCount = chosenlevelTheme.skyboxColors.Length;
             int nRandIndex = Random.Range(0, nLevelThemeSkyColorsCount);
             if (_level == 1)
             {
                 nRandIndex = 1;
             }
-            Color32 colCurrentSkybox = chosenlevelTheme.acolSkyboxColors[nRandIndex];
+            Color32 colCurrentSkybox = chosenlevelTheme.skyboxColors[nRandIndex];
 
-            nRandIndex = Random.Range(0, chosenlevelTheme.acolGroundColors.Length);
+            nRandIndex = Random.Range(0, chosenlevelTheme.groundColors.Length);
             foreach (Material groundMaterial in groundMaterials)
             {
-                groundMaterial.SetColor(_mainColor, chosenlevelTheme.acolGroundColors[nRandIndex]);
+                groundMaterial.SetColor(_mainColor, chosenlevelTheme.groundColors[nRandIndex]);
             }
 
-            obstacleWithSameColorInAllSceneMaterial.SetColor(_mainColor, chosenlevelTheme.acolObstacleColors[Random.Range(0, chosenlevelTheme.acolObstacleColors.Length)]);
+            obstacleWithSameColorInAllSceneMaterial.SetColor(_mainColor, chosenlevelTheme.obstacleColors[Random.Range(0, chosenlevelTheme.obstacleColors.Length)]);
             skyboxMaterial.SetColor(_skyboxTintColor, colCurrentSkybox);
             RenderSettings.fogColor = colCurrentSkybox;
 
