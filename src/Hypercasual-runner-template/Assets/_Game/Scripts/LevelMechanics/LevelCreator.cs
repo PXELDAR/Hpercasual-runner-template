@@ -125,15 +125,11 @@ namespace PXELDAR
         {
             SetLists();
             SetSplineVariables();
-
             CreateSplinePlatform();
-
             CreatePlayer();
             CreatePlayerIndicator();
-
             SetChunks();
             CreateChunks();
-
             CreateFinishPlatform();
             CreateEnvironment();
 
@@ -232,7 +228,7 @@ namespace PXELDAR
                         _splinePointCount = generalLevelSpline.chunkType.Length;
                         _currentChunkTypeList.AddRange(generalLevelSpline.chunkType);
                         _currentSplineBehaviour = generalLevelSpline;
-                        _currentSplineBehaviour.splineType = SplineType.Straight; //test
+                        // _currentSplineBehaviour.splineType = SplineType.Straight; //test
                         break;
                     }
             }
