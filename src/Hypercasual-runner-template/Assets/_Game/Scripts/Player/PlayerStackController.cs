@@ -12,20 +12,20 @@ namespace PXELDAR
         [SerializeField][Range(1, 10)] private int _requiredStackForLevel;
         public int requiredStackForLevel => _requiredStackForLevel;
 
-        [SerializeField] private float _segmentHeight = 0.3f;
-        [SerializeField] private float _segmentsDistanceFactor;
-        [SerializeField] private float _segmentFollowSpeed = 30;
+        [SerializeField][Range(-2f, 2f)] private float _segmentHeight = 0.3f;
+        [SerializeField][Range(0, 1f)] private float _segmentsDistanceFactor = 0.1f;
+        [SerializeField][Range(0, 100f)] private float _segmentFollowSpeed = 30;
+        [SerializeField][Range(0, 1f)] private float _collectedFeedbackScaleMultiplier = 0.5f;
+        [SerializeField][Range(0, 1f)] private float _collectedFeebackDuration = 0.5f;
 
         private List<CollectibleController> _stackedCollectibleList;
-
-        private int _stackCount => _stackedCollectibleList?.Count ?? 0;
-        private int _stackLevel;
         private const int _startingLevel = 1;
         private const int _minLevel = 1;
         private const int _maxLevel = 5;
-
         private const string _collectible = "Collectible";
         private const string _popParticle = "PopParticle";
+        private int _stackCount => _stackedCollectibleList?.Count ?? 0;
+        private int _stackLevel;
 
         //===================================================================================
 
@@ -68,18 +68,22 @@ namespace PXELDAR
 
                 _stackedCollectibleList[0].transform.position = Vector3.Lerp(
                     _stackedCollectibleList[0].transform.position,
-                    PlayerController.Instance.transform.position + Vector3.forward,
+                    PlayerController.Instance.transform.position + PlayerController.Instance.transform.forward,
                     Time.deltaTime * _segmentFollowSpeed);
 
                 _stackedCollectibleList[0].transform.forward = PlayerController.Instance.transform.forward;
 
                 for (int i = 1; i < _stackedCollectibleList.Count; i++)
                 {
-                    if (Vector3.Magnitude(_stackedCollectibleList[i].transform.position - _stackedCollectibleList[i - 1].transform.position) > _segmentHeight * _segmentsDistanceFactor)
+                    if (Vector3.Magnitude(
+                        _stackedCollectibleList[i].transform.position - _stackedCollectibleList[i - 1].transform.position) > _segmentHeight * _segmentsDistanceFactor)
                     {
                         _stackedCollectibleList[i].transform.LookAt(_stackedCollectibleList[i - 1].transform.position);
 
-                        _stackedCollectibleList[i].transform.position = Vector3.Lerp(_stackedCollectibleList[i].transform.position, _stackedCollectibleList[i - 1].transform.position - _stackedCollectibleList[i].transform.forward * _segmentHeight, Time.deltaTime * _segmentFollowSpeed);
+                        _stackedCollectibleList[i].transform.position = Vector3.Lerp(
+                            _stackedCollectibleList[i].transform.position,
+                            _stackedCollectibleList[i - 1].transform.position - _stackedCollectibleList[i].transform.forward * _segmentHeight,
+                            Time.deltaTime * _segmentFollowSpeed);
                     }
                 }
             }
@@ -273,15 +277,15 @@ namespace PXELDAR
 
         private IEnumerator DoCollectedFeedback()
         {
-            for (int index = 0; index < _stackedCollectibleList.Count; index++)
+            foreach (CollectibleController collectible in _stackedCollectibleList)
             {
-                Transform body = _stackedCollectibleList[index].transform.GetChild(0);
+                Transform body = collectible.transform.GetChild(0);
 
                 DOTween.Kill(body);
-                body.DOScale(Vector3.one, 0);
+                body.localScale = Vector3.one;
 
                 body
-                .DOPunchScale(Vector3.one * 0.7f, 0.75f, 0, 0)
+                .DOPunchScale(Vector3.one * _collectedFeedbackScaleMultiplier, _collectedFeebackDuration, 0, 0)
                 .SetEase(Ease.InSine);
 
                 yield return new WaitForSeconds(0.05f);
