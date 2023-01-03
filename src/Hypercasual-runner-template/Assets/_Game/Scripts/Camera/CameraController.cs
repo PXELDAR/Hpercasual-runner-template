@@ -69,15 +69,10 @@ namespace PXELDAR
                                          _playerSplineFollower.result.right * _playerSplineFollower.motion.offset.x +
                                          _playerSplineFollower.result.up * _playerOffsetValue.y +
                                          _playerSplineFollower.result.forward * _playerOffsetValue.z;
-
             transform.position = Vector3.Lerp(transform.position, targetPosition, _followSpeed * Time.deltaTime);
-
             float cameraRotationSpeed = 10f;
-
             float rotationStep = cameraRotationSpeed * Time.deltaTime;
-
             Vector3 direction = _playerSplineFollower.result.forward + Vector3.up * _elevationFactor;
-
             transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(direction), rotationStep);
         }
 
@@ -133,9 +128,7 @@ namespace PXELDAR
                 targetObject = LevelManager.Instance.creator.player.gameObject;
                 Vector3 v3TargetPosition = targetObject.transform.position + _playerOffsetValue;
                 transform.position = v3TargetPosition;
-
                 _playerSplineFollower = PlayerController.Instance.movementController.splineFollower;
-
                 _playerOffsetValue = _startPlayerOffset;
             }
         }

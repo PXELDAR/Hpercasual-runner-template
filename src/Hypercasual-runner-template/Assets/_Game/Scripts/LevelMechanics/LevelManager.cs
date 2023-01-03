@@ -66,17 +66,18 @@ namespace PXELDAR
             data = gameObject.AddComponent<LevelData>();
             creator = GetComponent<LevelCreator>();
 
-            if (!creator)
-            {
-                Debug.LogError("Assign level creator component to: ", this);
-            }
-
             collectibleLayer = LayerMask.NameToLayer(_layerCollectible);
             obstacleLayer = LayerMask.NameToLayer(_layerObstacle);
             gateLayer = LayerMask.NameToLayer(_layerGate);
             stairLayer = LayerMask.NameToLayer(_layerStair);
-
             _camera = Camera.main;
+
+#if UNITY_EDITOR
+            if (!creator)
+            {
+                Debug.LogError("Assign level creator component to: ", this);
+            }
+#endif
         }
 
         //===================================================================================
@@ -216,11 +217,11 @@ namespace PXELDAR
                 return;
             }
 
-            int nLevelThemesCount = levelThemes.Length;
-            int nRandIndex = Random.Range(0, nLevelThemesCount);
-            chosenlevelTheme = (levelThemes[nRandIndex] != null) ? levelThemes[nRandIndex] : levelThemes[0];
+            int levelThemesCount = levelThemes.Length;
+            int randIndex = Random.Range(0, levelThemesCount);
+            chosenlevelTheme = (levelThemes[randIndex] != null) ? levelThemes[randIndex] : levelThemes[0];
 
-            collectibleColorIndexes = ExtensionMethods.FillStartingFromToCount(0, chosenlevelTheme.collectibleMainColors.Length);   //sıralı liste doldur
+            collectibleColorIndexes = ExtensionMethods.FillStartingFromToCount(0, chosenlevelTheme.collectibleMainColors.Length);
             collectibleColorIndexes.Shuffle<int>();
 
             SetRandomLevelThemeGround();
@@ -235,18 +236,18 @@ namespace PXELDAR
                 return;
             }
 
-            int nLevelThemeSkyColorsCount = chosenlevelTheme.skyboxColors.Length;
-            int nRandIndex = Random.Range(0, nLevelThemeSkyColorsCount);
+            int levelThemeSkyColorsCount = chosenlevelTheme.skyboxColors.Length;
+            int randomIndex = Random.Range(0, levelThemeSkyColorsCount);
             if (_level == 1)
             {
-                nRandIndex = 1;
+                randomIndex = 1;
             }
-            Color32 colCurrentSkybox = chosenlevelTheme.skyboxColors[nRandIndex];
+            Color32 colCurrentSkybox = chosenlevelTheme.skyboxColors[randomIndex];
 
-            nRandIndex = Random.Range(0, chosenlevelTheme.groundColors.Length);
+            randomIndex = Random.Range(0, chosenlevelTheme.groundColors.Length);
             foreach (Material groundMaterial in groundMaterials)
             {
-                groundMaterial.SetColor(_mainColor, chosenlevelTheme.groundColors[nRandIndex]);
+                groundMaterial.SetColor(_mainColor, chosenlevelTheme.groundColors[randomIndex]);
             }
 
             obstacleWithSameColorInAllSceneMaterial.SetColor(_mainColor, chosenlevelTheme.obstacleColors[Random.Range(0, chosenlevelTheme.obstacleColors.Length)]);

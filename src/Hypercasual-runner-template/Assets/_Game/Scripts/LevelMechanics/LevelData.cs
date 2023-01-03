@@ -1,12 +1,9 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace PXELDAR
 {
     public class LevelData : MonoBehaviour
     {
-        //===================================================================================
-
         private int _level;
         private int _money;
         private int _levelMoney;
@@ -35,7 +32,6 @@ namespace PXELDAR
         private void OnPrepareNewGame(bool b)
         {
             LoadGameData();
-
             _levelMoney = 0;
         }
 
@@ -66,29 +62,14 @@ namespace PXELDAR
 
         private void LoadLevelData()
         {
-            if (PlayerPrefs.HasKey(_levelKey))
-            {
-                _level = PlayerPrefs.GetInt(_levelKey);
-            }
-            else
-            {
-                _level = 1;
-            }
+            _level = PlayerPrefs.HasKey(_levelKey) ? PlayerPrefs.GetInt(_levelKey) : 1;
         }
 
         //===================================================================================
 
         private void LoadMoneyData()
         {
-            if (PlayerPrefs.HasKey(_moneyKey))
-            {
-                _money = PlayerPrefs.GetInt(_moneyKey);
-            }
-            else
-            {
-                _money = 0;
-            }
-
+            _money = PlayerPrefs.HasKey(_moneyKey) ? PlayerPrefs.GetInt(_moneyKey) : 0;
             LevelManager.Instance.controller.MoneyChanged(_money, 0);
         }
 

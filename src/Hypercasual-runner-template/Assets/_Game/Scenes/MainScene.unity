@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.6879127, g: 0.84646773, b: 1.0361458, a: 1}
+  m_IndirectSpecularColor: {r: 0.5818919, g: 0.5004654, b: 0.93910635, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -409,7 +409,7 @@ MonoBehaviour:
   enableLevel1Exception: 0
   level1Spline:
     splineType: 0
-    chunkType: 
+    chunkType: 00000000
     isLeftAndRightEnabled: 0
   enableLevel2Exception: 0
   level2Spline:
@@ -428,7 +428,7 @@ MonoBehaviour:
     isLeftAndRightEnabled: 0
   generalLevelSpline:
     splineType: 0
-    chunkType: 00000000020000000200000002000000020000000200000002000000020000000200000000000000
+    chunkType: 00000000020000000300000002000000030000000200000003000000020000000200000000000000
     isLeftAndRightEnabled: 0
   isSplineGoingForward: 0
   minXSplinePointPosition: -10
@@ -554,7 +554,7 @@ MonoBehaviour:
   - {fileID: 3265515752389588382, guid: 3cb290cb9f5038b4d9ee95e73764a3ac, type: 3}
   - {fileID: 756081335549376783, guid: f3df0274aaa7ed746bc9afbf1c0c73ab, type: 3}
   - {fileID: 3603128384801654148, guid: 9b0a20fc9d2a0ad448c663a4a9e5f4d0, type: 3}
-  percentIncreaseRate: 0.15000000596046448
+  percentIncreaseRate: 0.6000000238418579
   _maximumXPosition: 40
   _minimumXPosition: 17.5
   maximumYPosition: -65

@@ -52,13 +52,13 @@ namespace PXELDAR
 
         [SerializeField] private bool isSplineGoingForward;
         [ConditionalHide("isSplineGoingForward", true)]
-        [SerializeField] private float minXSplinePointPosition;
+        [SerializeField][Range(-10, 0)] private float minXSplinePointPosition;
         [ConditionalHide("isSplineGoingForward", true)]
-        [SerializeField] private float maxXSplinePointPosition;
+        [SerializeField][Range(0, 10)] private float maxXSplinePointPosition;
         [ConditionalHide("isSplineGoingForward", true)]
-        [SerializeField] private float howManyPointsWillBeStraightAtTheEnd;
+        [SerializeField][Range(0, 2)] private float howManyPointsWillBeStraightAtTheEnd;
         [ConditionalHide("isSplineGoingForward", true)]
-        [SerializeField] private float howManyPointsWillBeStraightAtTheBeginning;
+        [SerializeField][Range(0, 2)] private float howManyPointsWillBeStraightAtTheBeginning;
 
         [HorizontalLine(3, EColor.Blue)]
         [SerializeField] private List<AnimationCurve> splineCurveList;
@@ -327,7 +327,6 @@ namespace PXELDAR
             {
                 Transform finishPlatform = Instantiate(finishPlatformPrefab, Vector3.zero, Quaternion.identity,
                     LevelManager.Instance.platformHolder);
-
                 SplinePositioner finishPlatformSplinePositioner = finishPlatform.GetComponent<SplinePositioner>();
 
                 if (!finishPlatformSplinePositioner)
@@ -336,11 +335,8 @@ namespace PXELDAR
                 }
 
                 finishPlatformSplinePositioner.spline = currentPlatformSplineComputer;
-
                 finishPlatform.SetParent(currentPlatformSplineComputer.transform);
-
                 finishPlatformSplinePositioner.motion.rotationOffset = Vector3.zero;
-
                 finishPlatformSplinePositioner.SetPercent(1);
             }
         }
@@ -466,6 +462,7 @@ namespace PXELDAR
                 }
 
                 // ReversePointOrder(currentPlatformSplineComputer);
+                // maybe, for some crazy moments
 
                 SetSplineLists();
             }

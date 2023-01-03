@@ -115,9 +115,11 @@ namespace PXELDAR
 
                 if (collectibleController)
                 {
-                    LevelManager.Instance.controller.PlayerCollidedWithCollectible(collectibleController);
-
-                    _previousCollectible = other;
+                    if (!collectibleController.IsCreatedViaDebugMenu())
+                    {
+                        LevelManager.Instance.controller.PlayerCollidedWithCollectible(collectibleController);
+                        _previousCollectible = other;
+                    }
                 }
             }
         }

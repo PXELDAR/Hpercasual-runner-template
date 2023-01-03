@@ -65,12 +65,10 @@ namespace PXELDAR
             if (_stackedCollectibleList.Count > 0)
             {
                 _stackedCollectibleList[0].transform.LookAt(PlayerController.Instance.transform.position);
-
                 _stackedCollectibleList[0].transform.position = Vector3.Lerp(
                     _stackedCollectibleList[0].transform.position,
                     PlayerController.Instance.transform.position + PlayerController.Instance.transform.forward,
                     Time.deltaTime * _segmentFollowSpeed);
-
                 _stackedCollectibleList[0].transform.forward = PlayerController.Instance.transform.forward;
 
                 for (int i = 1; i < _stackedCollectibleList.Count; i++)
@@ -79,7 +77,6 @@ namespace PXELDAR
                         _stackedCollectibleList[i].transform.position - _stackedCollectibleList[i - 1].transform.position) > _segmentHeight * _segmentsDistanceFactor)
                     {
                         _stackedCollectibleList[i].transform.LookAt(_stackedCollectibleList[i - 1].transform.position);
-
                         _stackedCollectibleList[i].transform.position = Vector3.Lerp(
                             _stackedCollectibleList[i].transform.position,
                             _stackedCollectibleList[i - 1].transform.position - _stackedCollectibleList[i].transform.forward * _segmentHeight,
@@ -119,19 +116,19 @@ namespace PXELDAR
 
         //===================================================================================
 
-        private void AddStack(CollectibleController collectible, bool isGate = false)
+        private void AddStack(CollectibleController collectible, bool isGate = false, bool isCreatedViaDebugMenu = false)
         {
             if (collectible)
             {
                 int previousStackCount = _stackCount;
-
                 _stackedCollectibleList.Add(collectible);
-
                 LevelManager.Instance.controller.PlayerStackChanged(_stackCount, previousStackCount);
-
                 CheckStackLevelState();
 
-                StartCoroutine(DoCollectedFeedback());
+                if (!isCreatedViaDebugMenu)
+                {
+                    StartCoroutine(DoCollectedFeedback());
+                }
             }
         }
 
@@ -144,12 +141,12 @@ namespace PXELDAR
                 if (newCollectible)
                 {
                     newCollectible.SetActive(true);
-
                     CollectibleController controller = newCollectible.GetComponent<CollectibleController>();
 
                     if (controller)
                     {
-                        AddStack(controller, true);
+                        AddStack(controller, true, true);
+                        controller.SetCreationViaDebugMenu();
                     }
                 }
             }
@@ -164,12 +161,9 @@ namespace PXELDAR
                 if (_stackCount > 0)
                 {
                     int previousStackCount = _stackCount;
-
                     _stackedCollectibleList.Remove(collectible);
                     // _feedbackList.Remove(collectible.feedback);
-
                     LevelManager.Instance.controller.PlayerStackChanged(_stackCount, previousStackCount);
-
                     CheckStackLevelState();
                 }
             }
@@ -223,7 +217,6 @@ namespace PXELDAR
 
             int currentLevel = _stackLevel;
             int newLevel = currentLevel + 1;
-
             SetStackLevel(newLevel, currentLevel);
         }
 
@@ -236,7 +229,6 @@ namespace PXELDAR
 
             int currentLevel = _stackLevel;
             int newLevel = currentLevel - 1;
-
             SetStackLevel(newLevel, currentLevel);
         }
 
@@ -246,7 +238,6 @@ namespace PXELDAR
         {
             _stackLevel = newLevel;
             _stackLevel = Mathf.Clamp(_stackLevel, _minLevel, _maxLevel);
-
             LevelManager.Instance.controller.PlayerStackLevelChanged(_stackLevel, previousLevel);
         }
 
@@ -280,14 +271,11 @@ namespace PXELDAR
             foreach (CollectibleController collectible in _stackedCollectibleList)
             {
                 Transform body = collectible.transform.GetChild(0);
-
                 DOTween.Kill(body);
                 body.localScale = Vector3.one;
-
                 body
                 .DOPunchScale(Vector3.one * _collectedFeedbackScaleMultiplier, _collectedFeebackDuration, 0, 0)
                 .SetEase(Ease.InSine);
-
                 yield return new WaitForSeconds(0.05f);
             }
         }
